@@ -40,8 +40,12 @@ class DeploymentsController < ApplicationController
     @deployment = Deployment.new
 
     if populate_deployment_and_fire
-      @deployment.deploy_in_background!
-      respond_with(@deployment, :location => [@project, @stage, @deployment])
+      respond_to do |format|
+        @deployment.deploy_in_background!
+
+        format.html { redirect_to project_stage_deployment_url(@project, @stage, @deployment)}
+        format.xml  { head :created, :location => project_stage_deployment_url(@project, @stage, @deployment) }
+      end
     else
       @deployment.clear_lock_error
       respond_with(@deployment)
