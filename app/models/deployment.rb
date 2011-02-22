@@ -131,7 +131,7 @@ class Deployment < ActiveRecord::Base
       d.stage = self.stage
       d.task = self.task
       d.description = "Repetition of deployment #{self.id}: \n"
-      d.description += self.description
+      d.description += self.description if self.description
     end
   end
 
