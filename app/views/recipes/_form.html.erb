@@ -15,6 +15,15 @@
 </p>
 
 <%#= observe_field "recipe_body", :frequency => 2.5, :with => "Form.Element.serialize('recipe_body')", :url => preview_recipes_url%>
+<script>
+  $("#recipe_body").observe_field(2.5, function( ) {
+    $.ajax({
+      url:'<%= preview_recipes_url %>',
+      data: $("#recipe_body").serialize(),
+      dataType:'script'
+    });
+  });
+</script>
 <div id="preview_fieldset">
   <fieldset class="fieldset">
     <legend>Code-Preview</legend>

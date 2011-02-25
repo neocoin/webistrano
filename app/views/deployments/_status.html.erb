@@ -86,14 +86,27 @@
   <script type="text/javascript">
 
     function update_status(){
-      new Ajax.Updater('status_info','<%= project_stage_deployment_path(@project, @stage, @deployment) %>.js',{
-        method: 'get',
-        evalScripts: true,
-        parameters: {
+      $.ajax({
+        url:'<%= project_stage_deployment_path(@project, @stage, @deployment) %>.js',
+        type:'get',
+        dataType:'html',
+        data: {
           random_differentiator: Math.floor(Math.random()*50000), // work around IE caching bug
-          auto_scroll: $('auto_scroll_log').checked
+          auto_scroll: $('#auto_scroll_log').is(":checked")
+        },
+        success: function(data) {
+          console.log(data);
+          $("#status_info").html(data);
         }
       });
+      //new Ajax.Updater('status_info','<%= project_stage_deployment_path(@project, @stage, @deployment) %>.js',{
+      //  method: 'get',
+      //  evalScripts: true,
+      //  parameters: {
+      //    random_differentiator: Math.floor(Math.random()*50000), // work around IE caching bug
+      //    auto_scroll: $('auto_scroll_log').checked
+      //  }
+      //});
     }
 
     setTimeout(update_status, 3000);
